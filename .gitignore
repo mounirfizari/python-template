@@ -1,0 +1,49 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.coverage
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+
+# Secrets
+.env
+.env.local
+secrets.env
+
+# Virtual environments
+.venv/
+venv/
+
+# Data & ML artifacts
+data/
+*.sigmf-data
+*.sigmf-meta
+*.npy
+*.npz
+*.h5
+*.hdf5
+*.wav
+*.iq
+*.cf32
+*.cs16
+outputs/
+runs/
+wandb/
+mlruns/
+lightning_logs/
+checkpoints/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.engine
+*.safetensors

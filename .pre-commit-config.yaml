@@ -1,0 +1,67 @@
+default_language_version:       # Pin Python version for all "language: Python" hooks
+  python: python3.10
+
+default_stages: [pre-commit]    # Git events that trigger hooks by default
+
+repos:
+  # Standard library of hooks from pre-commit
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace             # Strip trailing spaces on lines
+      - id: end-of-file-fixer               # Ensure files end with exactly one newline
+      - id: check-yaml                      # Parse yaml to catch syntax errors
+      - id: check-toml                      # Parse tomls to catch syntax errors
+      - id: check-json                      # Parse jsons to catch syntax errors
+      - id: check-ast                       # Parse pys to catch syntax errors
+      - id: check-case-conflict             # Ensure no case-conflicts in filenames
+      - id: check-added-large-files         # Block commits with files > 500 KB
+        args: [--maxkb=500]
+      - id: check-merge-conflict            # Ensure no merge conflict markers are in files
+      - id: debug-statements                # Catch stray debug calls
+      - id: check-executables-have-shebangs # Check that executables have shebangs + vice versa
+      - id: check-shebang-scripts-are-executable
+
+  # Keep uv.lock in sync with pyproject.toml
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.12.7
+    hooks:
+      - id: uv-lock
+
+  # Typo checker for code, comments, and docs
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.3.0
+    hooks:
+      - id: codespell
+        additional_dependencies: [tomli]
+
+  # Ruff linting and formatting
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.6                    # Ruff version from pyproject.toml
+    hooks:
+      - id: ruff-check              # Ruff lint with fix
+        args: [--fix]
+      - id: ruff-format             # Ruff format
+
+  # Gitleaks: Check for leaked secrets
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+
+  # Local mypy application pre-commit
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy
+        entry: uv run mypy
+        language: system
+        types: [python]           # Trigger when Python files change
+        pass_filenames: false     # Check the whole project per [tool.mypy]
+
+  # Conventional commit messages
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.16.0
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]

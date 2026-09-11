@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and discussions
+    url: https://github.com/YOUR_USER/YOUR_REPO/discussions
+    about: Please ask questions in Discussions, not issues.
+  - name: Security vulnerabilities
+    url: https://github.com/YOUR_USER/YOUR_REPO/security/advisories/new
+    about: Report security issues privately.

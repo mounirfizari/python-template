@@ -1,0 +1,54 @@
+name: Bug report
+description: Something isn't working as expected
+labels: [bug]                            # Auto-applied labels
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please fill out the sections below so we can
+        reproduce and investigate.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+      placeholder: When I run `foo bar`, it crashes with...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Smallest code sample that reproduces the issue.
+      render: python                     # Renders as a code block with syntax highlighting
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: 1.2.3
+    validations:
+      required: true
+
+  - type: dropdown
+    id: python-version
+    attributes:
+      label: Python version
+      options:
+        - "3.10"
+        - "3.11"
+        - "3.12"
+        - "3.13"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Output of `uv run python -V` and `uv --version`.
+      render: shell

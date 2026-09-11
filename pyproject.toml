@@ -1,0 +1,76 @@
+[project]
+name = "python-template"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Mounir Fizari", email = "mfizari2@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+python-template = "python_template:main"
+
+[build-system]
+requires = ["uv_build>=0.12.7,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.1",
+    "pre-commit>=4.6.2",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.6",
+]
+
+# Configuration for pytest
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+]
+
+# Settings for ruff: linting + formatting
+#   - 100 line length limit for scientific projects
+#   - Extend exclude list with Jupyter notebooks
+#   - Standard "medium-strict" set of lint rules
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF", "N", "NPY"]
+ignore = []
+
+[tool.ruff.format]
+docstring-code-format = true
+
+# Settings for mypy
+[tool.mypy]
+python_version = "3.10"         # Minimum project Python version - should match project.requires-python
+files = ["src", "tests"]        # Default paths mypy checks with no arguments
+strict = true                   # Strict: umbrella flag to turn on a certain number of checks
+warn_unreachable = true         # Warn if mypy detects unreachable parts of codebase - not included in "strict"
+show_error_code_links = true    # Show documentation URLs alongside errors
+pretty = true                   # Nicer looking error outputs
+enable_error_code = [           # Opt-in checks not in strict (can produce false positives)
+    "ignore-without-code",      # Narrow exceptions by requiring "# type: ignore[arg-type]"
+    "redundant-expr",           # Flag expressions where mypy can prove one side is dead
+    "truthy-bool",              # Flag if statements on variables that have no bool or len dunder methods
+    "possibly-undefined",       # Flag variables that are only assigned in some branches
+]
+
+# Skipping mypy on libraries with no types and no stub libraries
+[[tool.mypy.overrides]]
+module = []                     # syntax: module_name.*, comma-separated list ok
+ignore_missing_imports = true   # Setting: ignore untyped error for these modules
+
+# Codespell: files and words to skip flagging
+[tool.codespell]
+skip = "uv.lock,*.min.js,./docs/build"  # Files to skip spell-checking
+ignore-words-list = "hist"              # Words to exclude from the spell-checker
